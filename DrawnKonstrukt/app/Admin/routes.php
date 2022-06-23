@@ -13,5 +13,6 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('home');
     $router->resource('users', Usercontroller::class);
+    $router->get('/file', 'HomeController@index')->name('file');
 
 });
