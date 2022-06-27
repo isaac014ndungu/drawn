@@ -6,8 +6,15 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+   function index(){
 
-        function user(){
-            return view('users.user');
-        }
+    return view('dashboards.users.index');
+   }
+
+   function profile(){
+       return view('dashboards.users.profile');
+   }
+   function settings(){
+       return view('dashboards.users.settings');
+   }
 }
