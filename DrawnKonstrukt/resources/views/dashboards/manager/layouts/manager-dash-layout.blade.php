@@ -7,6 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>@yield('title')</title>
   <base href="{{ \URL::to('/') }}">
 
@@ -14,6 +15,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
@@ -49,18 +51,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Brand Logo -->
     <a href="{{ \URL::to('/')}}" class="brand-link">
       <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light"><Canvas>DRAWN</Canvas></span>
+      <span class="brand-text font-weight-light">Drawn</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
+
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2 admin_picture" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+          <a href="#" class="d-block admin_name">{{ Auth::user()->name }}</a>
         </div>
       </div>
 
@@ -87,6 +90,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ route('manager.upload')}}" class="nav-link {{ (request()->is('user/upload*')) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-user"></i>
+                  <p>
+                   Upload
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('manager.Wage')}}" class="nav-link {{ (request()->is('user/upload*')) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-user"></i>
+                  <p>
+                   WAGE REPORT
+                  </p>
+                </a>
+              </li>
           <li class="nav-item">
             <a href="{{ route('manager.settings')}}" class="nav-link {{ (request()->is('user/settings*')) ? 'active' : '' }}">
               <i class="nav-icon fas fa-cog"></i>
@@ -97,6 +116,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
         </ul>
       </nav>
+
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -125,7 +145,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       Anything you want
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2022<a href="https://quickoffice.co.ke">Quick Office</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2022-2023 <a href="https://quickoffice.co.ke">Quick Office</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
@@ -136,7 +156,94 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+
+{{-- CUSTOM JS CODES --}}
+<script>
+  $.ajaxSetup({
+     headers:{
+       'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+     }
+  });
+
+  $(function(){
+    /* UPDATE ADMIN PERSONAL INFO */
+    $('#AdminInfoForm').on('submit', function(e){
+        e.preventDefault();
+        $.ajax({
+           url:$(this).attr('action'),
+           method:$(this).attr('method'),
+           data:new FormData(this),
+           processData:false,
+           dataType:'json',
+           contentType:false,
+           beforeSend:function(){
+               $(document).find('span.error-text').text('');
+           },
+           success:function(data){
+                if(data.status == 0){
+                  $.each(data.error, function(prefix, val){
+                    $('span.'+prefix+'_error').text(val[0]);
+                  });
+                }else{
+                  $('.admin_name').each(function(){
+                     $(this).html( $('#AdminInfoForm').find( $('input[name="name"]') ).val() );
+                  });
+                  alert(data.msg);
+                }
+           }
+        });
+
+
+    $('#changePasswordAdminForm').on('submit', function(e){
+         e.preventDefault();
+         $.ajax({
+            url:$(this).attr('action'),
+            method:$(this).attr('method'),
+            data:new FormData(this),
+            processData:false,
+            dataType:'json',
+            contentType:false,
+            beforeSend:function(){
+              $(document).find('span.error-text').text('');
+            },
+            success:function(data){
+              if(data.status == 0){
+                $.each(data.error, function(prefix, val){
+                  $('span.'+prefix+'_error').text(val[0]);
+                });
+              }else{
+                $('#changePasswordAdminForm')[0].reset();
+                alert(data.msg);
+              }
+            }
+         });
+    });
+
+  });
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

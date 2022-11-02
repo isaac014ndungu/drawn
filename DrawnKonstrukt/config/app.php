@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'DrawnKonstrukt'),
 
     /*
     |--------------------------------------------------------------------------
@@ -155,10 +155,12 @@ return [
     */
 
     'providers' => [
-
+        Yajra\DataTables\DataTablesServiceProvider::class,
         /*
          * Laravel Framework Service Providers...
          */
+
+        Collective\Html\HtmlServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -210,6 +212,10 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Auth' => Illuminate\Support\Facades\Auth::class,
+        'Datatables' => Yajra\DataTables\Facades\DataTables::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ])->toArray(),
 
 ];

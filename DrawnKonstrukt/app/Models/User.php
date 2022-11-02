@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -22,7 +23,9 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -42,4 +45,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+ public function post()
+ {
+    return $this->hasMany('App\Models\post');
+ }
 }
+

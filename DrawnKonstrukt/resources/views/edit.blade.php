@@ -1,3 +1,8 @@
+@extends('dashboards.admins.layouts.admin-dash-layout')
+@section('title','upload')
+
+@section('content')
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -24,6 +29,7 @@
                     <button class="btn text-danger">X</button>
                     @csrf
                     @method('delete')
+                    <a href="/upload/{{  $posts->id }}" onclick="display $user where role ==2" class="btn btn-outline-primary">Update</a>
                     </form>
                     <img src="/cover/{{ $posts->cover }}" class="img-responsive" style="max-height: 100px; max-width: 100px;" alt="" srcset="">
                     <br>
@@ -34,7 +40,7 @@
                      <p>Images:</p>
                      @foreach ($posts->images as $img)
                      <form action="/deleteimage/{{ $img->id }}" method="post">
-                         <button class="btn text-danger">X</button>
+                         <button class="btn text-danger">x</button>
                          @csrf
                          @method('delete')
                          </form>
@@ -52,6 +58,21 @@
                             @csrf
                             @method("put")
                          <input type="text" name="title" class="form-control m-2" placeholder="title" value="{{ $posts->title }}">
+
+
+                     </form>
+                     <form action="{{ route('user.settings') }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <select name="" class="form-control m-2" id="">
+                            @foreach ($user as $option )
+                            <option value="{{ $option->id }}">{{ $option->name }}</option>
+                            @endforeach
+                         </select>
+                         <input type="text">
+
+                         <button class="btn btn-lg btn-primary">DONE</button>
+                     </form>
         				 <input type="text" name="author" class="form-control m-2" placeholder="author" value="{{ $posts->author }}">
                          <Textarea name="body" cols="20" rows="4" class="form-control m-2" placeholder="body">{{ $posts->body }}</Textarea>
                          <label class="m-2">Cover Image</label>
@@ -60,21 +81,11 @@
                          <label class="m-2">Images</label>
                          <input type="file" id="input-file-now-custom-3" class="form-control m-2" name="images[]" multiple>
 
-                        <button type="submit" class="btn btn-danger mt-3 ">Submit</button>
+
                         </form>
                    </div>
                 </div>
             </div>
-
-
-
          </body>
 </html>
-
-
-
-
-
-
-
-
+@endsection

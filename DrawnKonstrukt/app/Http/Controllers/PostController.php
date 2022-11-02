@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Image;
+use App\Models\image;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -23,10 +24,14 @@ class PostController extends Controller
     public function index()
     {
         $posts=Post::all();
-        return view('create')->with('posts',$posts);
+        return view('index')->with('posts',$posts);
     }
 
-
+public function view()
+{
+    $post=auth()->user()->post;
+    return view('dashboards.users.data')->with('post',$post);
+}
 
     /**
      * Show the form for creating a new resource.
@@ -95,9 +100,13 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $user=User::all();
        $posts=Post::findOrFail($id);
-        return view('edit')->with('posts',$posts);
+
+
+        return view('dashboards.admins.edit')->with('posts',$posts, )->with('user',$user);;
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -120,6 +129,7 @@ class PostController extends Controller
      }
 
         $post->update([
+            "user_id" =>$request->user_id,
             "title" =>$request->title,
             "author"=>$request->author,
             "body"=>$request->body,

@@ -15,7 +15,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-   <link rel="stylesheet" href="{{ asset('plugins/ijaboCropTool/ijaboCropTool.min.css') }}">
+
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
@@ -93,9 +93,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
               <li class="nav-item">
                 <a href="{{ route('admin.CRUD')}}" class="nav-link {{ (request()->is('admins/CRUD*')) ? 'active' : '' }}">
-                    <i class="fa-solid fa-cloud-check"></i>
+                    <i class="fa-light fa-angles-up"></i>
                   <p>
                    Uploads
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.user')}}" class="nav-link {{ (request()->is('admins/user*')) ? 'active' : '' }}">
+                    <i class="fa-solid fa-cloud-check"></i>
+                  <p>
+                   users
                   </p>
                 </a>
               </li>
@@ -108,8 +116,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('products.index')}}"  class="nav-link {{ (request()->is('admin/Products*')) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+               Products
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('admin.Wagerepo')}}" class="nav-link {{ (request()->is('user/upload*')) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-bracket"></i>
+              <p>
+               WAGE REPORT
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('admin.Paymentform')}}" class="nav-link {{ (request()->is('user/upload*')) ? 'active' : '' }}">
+                <i class="fa-light fa-arrow-up-from-bracket"></i>
+              <p>
+               Payment Form
+              </p>
+            </a>
+          </li>
+
         </ul>
       </nav>
+
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -149,7 +183,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="{{ asset('plugins/ijaboCropTool/ijaboCropTool.min.js') }}"></script>
+
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 
@@ -188,25 +222,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 }
            }
         });
-    });
-    $(document).on('click','#change_picture_btn', function(){
-      $('#admin_image').click();
-    });
-    $('#admin_image').ijaboCropTool({
-          preview : '.admin_picture',
-          setRatio:1,
-          allowedExtensions: ['jpg', 'jpeg','png'],
-          buttonsText:['CROP','QUIT'],
-          buttonsColor:['#30bf7d','#ee5155', -15],
-          processUrl:'{{ route("adminPictureUpdate") }}',
-          // withCSRF:['_token','{{ csrf_token() }}'],
-          onSuccess:function(message, element, status){
-             alert(message);
-          },
-          onError:function(message, element, status){
-            alert(message);
-          }
-       });
+
+
     $('#changePasswordAdminForm').on('submit', function(e){
          e.preventDefault();
          $.ajax({
@@ -233,6 +250,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     });
 
   });
-</script>
+
 </body>
 </html>
